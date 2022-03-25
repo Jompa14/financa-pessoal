@@ -1,11 +1,10 @@
 <template>
     <div id="app">
-        <tabela></tabela>
+        <tabela-usuario></tabela-usuario>
     </div>
 </template>
 
 <script>
-import tabela from './components/tabela.vue';
 export default {
   name: 'App',
 };
