@@ -1,18 +1,18 @@
 <template>
-  <tabela/>
+    <div id="app">
+        <tabela></tabela>
+    </div>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
-
+import tabela from './components/tabela.vue';
 export default {
   name: 'App',
-  components: {
-    HelloWorld
-  }
-}
+};
 </script>
 
-<style>
-
+<style scoped>
+#app {
+    color: black;
+}
 </style>
