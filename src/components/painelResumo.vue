@@ -1,14 +1,82 @@
 <template lang="html">
     <div class="alinhamento">
-        <p>hello world</p>
+        <div class="div-pai">
+            <div
+                v-for="p in painel"
+                :key="p"
+                :style="{color: '#' + p.cor}"
+                class="valores"
+            >
+                <p>{{p.texto}}</p>
+                <p>{{p.valor}}</p>
+            </div>
+        </div>
     </div>
 </template>
 
 <script>
 export default {
     // name: 'painel-resumo',
+    data() {
+        return {
+            painel: [
+                {
+                    texto: 'Total Entradas:',
+                    valor: 25.000,
+                    cor: '3ec8b3',
+                },
+                {
+                    texto: 'Total saídas:',
+                    valor: 5.000,
+                    cor: 'f48d67',
+                },
+                {
+                    texto: 'Saldo:',
+                    valor: 20.000,
+                    cor: '00a6d8',
+                },
+            ],
+        }
+    }
 }
 </script>
 
 <style lang="scss" scoped>
+    .div-pai {
+        border: 1px solid black;
+        width: 100%;
+        display: flex;
+        justify-content: space-around;
+        align-items: center;
+        .valores {
+            padding: 15px 0;
+        }
+        p {
+            font-weight: bold;
+            margin: 0;
+            font-size: 20px;
+        }
+        p:nth-child(2) {
+            font-size: 25px;
+        }
+        @media (max-width: 600px) {
+            flex-direction: column;
+            align-items: flex-start;
+            padding: 10px 0;
+            p {
+                margin-top: 2px;
+                margin-bottom: 2px;
+            }
+            p:nth-child(2) {
+                margin-left: 5px;
+            }
+            .valores {
+                margin-left: 16px;
+                display: flex;
+                align-items: center;
+                padding-top: 0;
+                padding-bottom: 0;
+            }
+        }
+    }
 </style>

@@ -39,11 +39,8 @@ export default {
     .navbar {
         display: flex;
         align-items: center;
-        h1, h2, h3 {
-            color: #3ec8b3;
-        }
-        // h2 {
-        //     color: #3ec8b3;
-        // }
+    }
+    h1, h2, h3 {
+        color: #3ec8b3;
     }
 </style>
