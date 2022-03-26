@@ -1,6 +1,6 @@
 <template lang="html">
     <div class="">
-        <p>{{ teste }}</p>
+        <!-- <p>{{ teste }}</p> -->
     </div>
 </template>
 

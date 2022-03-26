@@ -3,19 +3,22 @@
         <div class="navbar alinhamento">
             <h1>Finança pessoal</h1>
         </div>
-        <tabela-usuario></tabela-usuario>
         <painel-resumo></painel-resumo>
+        <dash-usuario/>
+        <tabela-usuario></tabela-usuario>
     </div>
 </template>
 
 <script>
 import tabelaUsuario from './components/tabela.vue'
 import painelResumo from './components/painelResumo.vue'
+import dashUsuario from './components/dashUsuario.vue'
 export default {
   name: 'App',
   components: {
       tabelaUsuario,
       painelResumo,
+      dashUsuario,
   }
 };
 </script>
