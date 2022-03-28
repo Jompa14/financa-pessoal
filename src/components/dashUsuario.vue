@@ -76,7 +76,32 @@
             </div>
 
             <div class="box margin-esquerda-desk">
-                <h2>Histórico</h2>
+                <div class="cabecalhoHistorico">
+                    <h2>Histórico</h2>
+
+                    <div class="filtros">
+                        <p>Filtros:</p>
+                        <select
+                            id="FiltroTipo"
+                            name="FiltroTipo"
+                        >
+                            <option selected value="todos">Todos</option>
+                            <option value="entrada">Entrada</option>
+                            <option value="saída">Saída</option>
+                        </select>
+                        <select
+                            id="FiltroCategoria"
+                            name="FiltroCategoria"
+                        >
+                            <option selected value="todas">Todas</option>
+                            <option value="saúde">Saúde</option>
+                            <option value="alimentacao">Alimentação</option>
+                            <option value="despesas">Despesas fixas</option>
+                            <option value="mimos">Mimos</option>
+                            <option value="jobs">Jobs</option>
+                        </select>
+                    </div>
+                </div>
                 <div
                     v-if="listaTransacoes.length === 0"
                 >
@@ -90,7 +115,7 @@
                         <th v-for="(coluna, index) in tabela.colunas" :key="index"> {{coluna}}</th>
                     </thead>
                     <tbody>
-                        <tr v-for="(item, index) in listaTransacoes" :key="index">
+                        <tr v-for="(item, index) in listaTransacoesFiltro" :key="index">
                             <td>{{item.titulo}}</td>
                             <td
                                 :style="item.tipo === 'saída'
@@ -116,22 +141,23 @@
 
 <script>
 export default {
+
     data() {
         return {
             painel: [
                 {
                     texto: 'Total Entradas:',
-                    valor: this.totalEntradas,
+                    valor: 'No',
                     cor: '3ec8b3',
                 },
                 {
                     texto: 'Total saídas:',
-                    valor: this.totalSaidas,
+                    valor: 'Console',
                     cor: 'f48d67',
                 },
                 {
                     texto: 'Saldo:',
-                    valor: this.saldo,
+                    valor: 'Funciona',
                     cor: '00a6d8',
                 },
             ],
@@ -146,6 +172,7 @@ export default {
                 data: '',
             },
             listaTransacoes: [],
+            listaTransacoesFiltro: [],
             totalEntradas: 0,
             totalSaidas: 0,
             saldo: 0,
@@ -160,12 +187,19 @@ export default {
             console.log(this.totalSaidas, this.totalEntradas, this.saldo)
             objeto.data = this.retornaData()
             this.listaTransacoes.push({...objeto})
-            localStorage.listaTransacoes = this.listaTransacoes
         },
         // famoso metodo para retornar a data
         retornaData () {
             return new Date().toLocaleDateString();
-         },
+        },
+        //inacabado:
+        // tabelaFiltrada() {
+        //     return this.listaTransacoes.filter(filtro1 => {
+        //         filtro1.includes(this.tipo);
+        //         console.log('filtro' filtro1);
+        //     })
+        // },
+
     }
 }
 </script>
@@ -224,6 +258,7 @@ export default {
         flex-direction: column;
     }
     .margin-esquerda-desk {
+        width: 100%;
         margin-left: 100px;
     }
     .inputs {
@@ -267,6 +302,18 @@ export default {
         td {
             text-align: center;
             text-transform: capitalize;
+        }
+    }
+    .cabecalhoHistorico {
+        width: 100%;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        .filtros {
+            width: 50%;
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
         }
     }
 </style>
