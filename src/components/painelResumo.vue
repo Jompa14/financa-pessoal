@@ -2,13 +2,13 @@
     <div class="alinhamento">
         <div class="div-pai">
             <div
-                v-for="p in painel"
-                :key="p"
+                v-for="p, index in painel"
+                :key="index"
                 :style="{color: '#' + p.cor}"
                 class="valores"
             >
                 <p>{{p.texto}}</p>
-                <p>{{p.valor}}</p>
+                <p>R$ {{p.valor}}</p>
             </div>
         </div>
     </div>
