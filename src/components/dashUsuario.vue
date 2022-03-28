@@ -38,7 +38,7 @@
                             required
                             >
                             <option value="entrada">Entrada</option>
-                            <option value="saida">Saída</option>
+                            <option value="saída">Saída</option>
                         </select>
                     </div>
                     <div class="inputLabel">
@@ -49,7 +49,7 @@
                             name="categoria"
                             required
                         >
-                            <option value="saude">Saúde</option>
+                            <option value="saúde">Saúde</option>
                             <option value="alimentacao">Alimentação</option>
                             <option value="despesas">Despesas fixas</option>
                             <option value="mimos">Mimos</option>
@@ -75,16 +75,39 @@
                 </form>
             </div>
 
-            <div class="box">
+            <div class="box margin-esquerda-desk">
                 <h2>Histórico</h2>
-                <div class="tabela">
-                    <div class="headerTabela">
-
-                    </div>
-                    {{listaTransacoes}}
-                    {{totalSaidas}}
-                    {{totalEntradas}}
+                <div
+                    v-if="listaTransacoes.length === 0"
+                >
+                    Você ainda não fez nenhuma transação
                 </div>
+                <table
+                    v-else
+                    class="tabela"
+                >
+                    <thead>
+                        <th v-for="(coluna, index) in tabela.colunas" :key="index"> {{coluna}}</th>
+                    </thead>
+                    <tbody>
+                        <tr v-for="(item, index) in listaTransacoes" :key="index">
+                            <td>{{item.titulo}}</td>
+                            <td
+                                :style="item.tipo === 'saída'
+                                    ? 'color: #f48d67; font-weight: bold'
+                                    : 'color: #3ec8b3; font-weight: bold'"
+                            >
+                                {{item.tipo}}
+                            </td>
+                            <td>{{item.categoria}}</td>
+                            <td>
+                                <span v-if="item.tipo === 'saída'">- </span>
+                                {{item.valor}}
+                            </td>
+                            <td>{{item.data}}</td>
+                        </tr>
+                    </tbody>
+                </table>
 
             </div>
         </div>
@@ -112,6 +135,9 @@ export default {
                     cor: '00a6d8',
                 },
             ],
+            tabela: {
+                colunas: [ 'Título','Tipo', 'Categoria','Valor', 'Data'],
+            },
             transacao: {
                 titulo: '',
                 tipo: '',
@@ -134,6 +160,7 @@ export default {
             console.log(this.totalSaidas, this.totalEntradas, this.saldo)
             objeto.data = this.retornaData()
             this.listaTransacoes.push({...objeto})
+            localStorage.listaTransacoes = this.listaTransacoes
         },
         // famoso metodo para retornar a data
         retornaData () {
@@ -196,6 +223,9 @@ export default {
         display: flex;
         flex-direction: column;
     }
+    .margin-esquerda-desk {
+        margin-left: 100px;
+    }
     .inputs {
         display: flex;
         flex-direction: column;
@@ -221,5 +251,22 @@ export default {
         border-radius: 4px;
         font-size: 16px;
         font-weight: bold;
+    }
+    .tabela {
+        border: 1px solid grey;
+        border-radius: 4px;
+        th {
+            padding: 5px 25px;
+        }
+        th:first-child {
+            padding: 5px 155px;
+        }
+        td:last-child {
+            padding: 5px 20px 5px 5px;
+        }
+        td {
+            text-align: center;
+            text-transform: capitalize;
+        }
     }
 </style>
