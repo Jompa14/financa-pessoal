@@ -115,7 +115,7 @@
                         <th v-for="(coluna, index) in tabela.colunas" :key="index"> {{coluna}}</th>
                     </thead>
                     <tbody>
-                        <tr v-for="(item, index) in listaTransacoesFiltro" :key="index">
+                        <tr v-for="(item, index) in listaTransacoes" :key="index">
                             <td>{{item.titulo}}</td>
                             <td
                                 :style="item.tipo === 'saída'
@@ -147,17 +147,17 @@ export default {
             painel: [
                 {
                     texto: 'Total Entradas:',
-                    valor: 'No',
+                    valor: 0,
                     cor: '3ec8b3',
                 },
                 {
                     texto: 'Total saídas:',
-                    valor: 'Console',
+                    valor: 0,
                     cor: 'f48d67',
                 },
                 {
                     texto: 'Saldo:',
-                    valor: 'Funciona',
+                    valor: 0,
                     cor: '00a6d8',
                 },
             ],
@@ -173,20 +173,16 @@ export default {
             },
             listaTransacoes: [],
             listaTransacoesFiltro: [],
-            totalEntradas: 0,
-            totalSaidas: 0,
-            saldo: 0,
         }
     },
     methods: {
         submeter(objeto) {
-            objeto.tipo === 'entrada'
-                ? this.totalEntradas += parseInt(objeto.valor)
-                : this.totalSaidas += parseInt(objeto.valor)
-            this.saldo = this.totalEntradas - this.totalSaidas
-            console.log(this.totalSaidas, this.totalEntradas, this.saldo)
             objeto.data = this.retornaData()
             this.listaTransacoes.push({...objeto})
+            objeto.tipo === 'entrada'
+                ? this.painel[0].valor += parseInt(objeto.valor)
+                : this.painel[1].valor += parseInt(objeto.valor)
+            this.painel[2].valor = this.painel[0].valor - this.painel[1].valor
         },
         // famoso metodo para retornar a data
         retornaData () {
