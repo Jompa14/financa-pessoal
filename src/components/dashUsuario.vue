@@ -1,83 +1,94 @@
 <template lang="html">
     <div class="alinhamento div-pai">
-        <div class="box">
-            <h2>Dashboard</h2>
-            <form
-                class="inputs"
-                @submit.prevent="submeter(transacao)"
-            >
-                <div class="inputLabel">
-                    <label for="titulo">Título:</label>
-                    <input
-                        v-model="transacao.titulo"
-                        id="titulo"
-                        type="text"
-                        name="titulo"
-                        required
-                    />
-                </div>
-                <div class="inputLabel">
-                    <label for="tipo">Tipo:</label>
-                    <select
-                        v-model="transacao.tipo"
-                        id="tipo"
-                        name="tipo"
-                        required
+
+        <painel-resumo
+            :totalSaidas="totalSaidas"
+            :totalEntradas="totalEntradas"
+            :saldo="saldo"
+        ></painel-resumo>
+        <div class="dashMaisTabela">
+            <div class="box">
+                <h2>Dashboard</h2>
+                <form
+                    class="inputs"
+                    @submit.prevent="submeter(transacao)"
+                >
+                    <div class="inputLabel">
+                        <label for="titulo">Título:</label>
+                        <input
+                            v-model="transacao.titulo"
+                            id="titulo"
+                            type="text"
+                            name="titulo"
+                            required
+                        />
+                    </div>
+                    <div class="inputLabel">
+                        <label for="tipo">Tipo:</label>
+                        <select
+                            v-model="transacao.tipo"
+                            id="tipo"
+                            name="tipo"
+                            required
+                            >
+                            <option value="valor1">Entrada</option>
+                            <option value="valor2">Saída</option>
+                        </select>
+                    </div>
+                    <div class="inputLabel">
+                        <label for="categoria">Categoria:</label>
+                        <select
+                            v-model="transacao.categoria"
+                            id="categoria"
+                            name="categoria"
+                            required
                         >
-                        <option value="valor1">Entrada</option>
-                        <option value="valor2">Saída</option>
-                    </select>
-                </div>
-                <div class="inputLabel">
-                    <label for="categoria">Categoria:</label>
-                    <select
-                        v-model="transacao.categoria"
-                        id="categoria"
-                        name="categoria"
-                        required
-                    >
-                        <option value="1">Saúde</option>
-                        <option value="2">Alimentação</option>
-                        <option value="3">Despesas fixas</option>
-                        <option value="4">Mimos</option>
-                        <option value="5">Jobs</option>
-                    </select>
-                </div>
-                <div class="inputLabel">
-                    <label for="titulo">Valor:</label>
+                            <option value="1">Saúde</option>
+                            <option value="2">Alimentação</option>
+                            <option value="3">Despesas fixas</option>
+                            <option value="4">Mimos</option>
+                            <option value="5">Jobs</option>
+                        </select>
+                    </div>
+                    <div class="inputLabel">
+                        <label for="titulo">Valor:</label>
+                        <input
+                            v-model="transacao.valor"
+                            id="valor"
+                            type="number"
+                            name="valor"
+                            required
+                        />
+                    </div>
+                    <!-- botao -->
                     <input
-                        v-model="transacao.valor"
-                        id="valor"
-                        type="number"
-                        name="valor"
-                        required
+                        class="btnStyle"
+                        type="submit"
+                        value="Salvar"
                     />
-                </div>
-                <!-- botao -->
-                <input
-                    class="btnStyle"
-                    type="submit"
-                    value="Salvar"
-                />
-            </form>
-        </div>
-
-        <div class="box">
-            <h2>Histórico</h2>
-            <div class="tabela">
-                <div class="headerTabela">
-
-                </div>
-                {{listaTransacoes}}
+                </form>
             </div>
 
-        </div>
+            <div class="box">
+                <h2>Histórico</h2>
+                <div class="tabela">
+                    <div class="headerTabela">
 
+                    </div>
+                    {{listaTransacoes}}
+                </div>
+
+            </div>
+        </div>
     </div>
 </template>
 
 <script>
+import painelResumo from './/painelResumo.vue'
 export default {
+    components: {
+        painelResumo,
+    },
     data() {
         return {
             transacao: {
@@ -88,6 +99,9 @@ export default {
                 data: '',
             },
             listaTransacoes: [],
+            totalEntradas: 0,
+            totalSaidas: 0,
+            saldo: 0,
         }
     },
     methods: {
@@ -106,6 +120,10 @@ export default {
 <style lang="scss" scoped>
     .div-pai {
         padding-top: 20px;
+        display: flex;
+        flex-direction: column;
+    }
+    .dashMaisTabela {
         display: flex;
     }
     .box {

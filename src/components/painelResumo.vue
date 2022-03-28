@@ -1,5 +1,5 @@
 <template lang="html">
-    <div class="alinhamento">
+    <div>
         <div class="div-pai">
             <div
                 v-for="p, index in painel"
@@ -16,23 +16,36 @@
 
 <script>
 export default {
-    // name: 'painel-resumo',
+    props: {
+        totalEntradas: {
+            default: 0,
+            type: Number,
+        },
+        totalSaidas: {
+            default: 0,
+            type: Number,
+        },
+        saldo: {
+            default: 0,
+            type: Number,
+        },
+    },
     data() {
         return {
             painel: [
                 {
                     texto: 'Total Entradas:',
-                    valor: 25.000,
+                    valor: this.totalEntradas,
                     cor: '3ec8b3',
                 },
                 {
                     texto: 'Total saídas:',
-                    valor: 5.000,
+                    valor: this.totalSaidas,
                     cor: 'f48d67',
                 },
                 {
                     texto: 'Saldo:',
-                    valor: 20.000,
+                    valor: this.saldo,
                     cor: '00a6d8',
                 },
             ],
