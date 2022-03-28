@@ -1,11 +1,17 @@
 <template lang="html">
     <div class="alinhamento div-pai">
 
-        <painel-resumo
-            :totalSaidas="totalSaidas"
-            :totalEntradas="totalEntradas"
-            :saldo="saldo"
-        ></painel-resumo>
+        <div class="painel-resumo">
+            <div
+                v-for="p, index in painel"
+                :key="index"
+                :style="{color: '#' + p.cor}"
+                class="valores"
+            >
+                <p>{{p.texto}}</p>
+                <p>R$ {{p.valor}}</p>
+            </div>
+        </div>
         <div class="dashMaisTabela">
             <div class="box">
                 <h2>Dashboard</h2>
@@ -31,8 +37,8 @@
                             name="tipo"
                             required
                             >
-                            <option value="valor1">Entrada</option>
-                            <option value="valor2">Saída</option>
+                            <option value="entrada">Entrada</option>
+                            <option value="saida">Saída</option>
                         </select>
                     </div>
                     <div class="inputLabel">
@@ -43,11 +49,11 @@
                             name="categoria"
                             required
                         >
-                            <option value="1">Saúde</option>
-                            <option value="2">Alimentação</option>
-                            <option value="3">Despesas fixas</option>
-                            <option value="4">Mimos</option>
-                            <option value="5">Jobs</option>
+                            <option value="saude">Saúde</option>
+                            <option value="alimentacao">Alimentação</option>
+                            <option value="despesas">Despesas fixas</option>
+                            <option value="mimos">Mimos</option>
+                            <option value="jobs">Jobs</option>
                         </select>
                     </div>
                     <div class="inputLabel">
@@ -76,6 +82,8 @@
 
                     </div>
                     {{listaTransacoes}}
+                    {{totalSaidas}}
+                    {{totalEntradas}}
                 </div>
 
             </div>
@@ -84,13 +92,26 @@
 </template>
 
 <script>
-import painelResumo from './/painelResumo.vue'
 export default {
-    components: {
-        painelResumo,
-    },
     data() {
         return {
+            painel: [
+                {
+                    texto: 'Total Entradas:',
+                    valor: this.totalEntradas,
+                    cor: '3ec8b3',
+                },
+                {
+                    texto: 'Total saídas:',
+                    valor: this.totalSaidas,
+                    cor: 'f48d67',
+                },
+                {
+                    texto: 'Saldo:',
+                    valor: this.saldo,
+                    cor: '00a6d8',
+                },
+            ],
             transacao: {
                 titulo: '',
                 tipo: '',
@@ -106,6 +127,11 @@ export default {
     },
     methods: {
         submeter(objeto) {
+            objeto.tipo === 'entrada'
+                ? this.totalEntradas += parseInt(objeto.valor)
+                : this.totalSaidas += parseInt(objeto.valor)
+            this.saldo = this.totalEntradas - this.totalSaidas
+            console.log(this.totalSaidas, this.totalEntradas, this.saldo)
             objeto.data = this.retornaData()
             this.listaTransacoes.push({...objeto})
         },
@@ -123,8 +149,48 @@ export default {
         display: flex;
         flex-direction: column;
     }
+    .painel-resumo {
+        border: 1px solid black;
+        width: 100%;
+        display: flex;
+        justify-content: space-around;
+        align-items: center;
+        .valores {
+            padding: 15px 0;
+        }
+        p {
+            font-weight: bold;
+            margin: 0;
+            font-size: 20px;
+        }
+        p:nth-child(2) {
+            font-size: 25px;
+        }
+        @media (max-width: 600px) {
+            flex-direction: column;
+            align-items: flex-start;
+            padding: 10px 0;
+            p {
+                margin-top: 2px;
+                margin-bottom: 2px;
+            }
+            p:nth-child(2) {
+                margin-left: 5px;
+            }
+            .valores {
+                margin-left: 16px;
+                display: flex;
+                align-items: center;
+                padding-top: 0;
+                padding-bottom: 0;
+            }
+        }
+    }
     .dashMaisTabela {
         display: flex;
+        @media (max-width: 600px) {
+            flex-direction: column;
+        }
     }
     .box {
         display: flex;
